@@ -1,17 +1,17 @@
-const WIDTH: usize = 11;
-const HEIGHT: usize = 11; 
+const HEIGHT: usize = 11;
 fn main() {
     let mut output = String::new();
+    let mid = HEIGHT / 2;
 
     for y in 0..HEIGHT {
-        for x in 0..WIDTH {
-            if x == WIDTH / 2 - y || x == WIDTH / 2 + y || x == y - WIDTH / 2 || x == WIDTH + WIDTH / 2 - 1 - y {
+        for x in 0..HEIGHT {
+            if x == mid - y || x == mid + y || x == y - mid || x == HEIGHT + mid - 1 - y {
                 output.push('*');
             } else {
                 output.push(' ');
             }
         }
-        output.push('\n');
+        output.push('\n'); 
     }
     print!("{}", output); 
 }
