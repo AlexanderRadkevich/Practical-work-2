@@ -1,17 +1,22 @@
-const HEIGHT: usize = 11;
 fn main() {
+    const WIDTH: i32 = 11;
+    const HEIGHT: i32 = 11;
     let mut output = String::new();
-    let mid = HEIGHT / 2;
-
-    for y in 0..HEIGHT {
-        for x in 0..HEIGHT {
-            if x == mid - y || x == mid + y || x == y - mid || x == HEIGHT + mid - 1 - y {
-                output.push('*');
-            } else {
-                output.push(' ');
-            }
+    for i in 0..HEIGHT {
+        let spaces = ((HEIGHT - 1) / 2 - i).abs();
+        let stars = if i <= HEIGHT / 2 {
+            1 + 2 * i
+        } else {
+            WIDTH - 2 * (i - HEIGHT / 2)
+        };
+        for _ in 0..spaces {
+            output.push(' ');
         }
-        output.push('\n'); 
+        for _ in 0..stars {
+            output.push('*');
+        }
+        output.push('\n');
     }
-    print!("{}", output); 
+    print!("{}", output);
+    println!();
 }
