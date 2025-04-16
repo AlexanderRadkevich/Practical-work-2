@@ -20,9 +20,8 @@ fn test() {
 }
 
 fn main() {
-    test();
-    let data = [123, 121, 1221];
-    data.iter().for_each(|n| {
-        println!("{}", is_palindrome(*n));
+    let numbers = [123, 121, 1221];
+    numbers.iter().for_each(|&n| {
+        println!("{}", is_palindrome(n));
     });
 }
