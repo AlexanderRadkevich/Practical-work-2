@@ -36,7 +36,9 @@ fn test() {
             );
         });
 }
+
 fn main() {
+    test();
     println!("{}", rotate("abcdefgh".to_string(), 2));
     println!("{}", rotate("abcdefgh".to_string(), -1));
 }
