@@ -1,82 +1,50 @@
-use rand::Rng;
-
-fn count_permutation(shipments: &[u32]) -> usize {
-    if shipments.len() <= 1 {
-        return 0;
+fn all_different(digits: &[u32]) -> bool {
+    let mut used = [false; 9];
+    for &d in digits {
+        if d == 0 || used[d as usize] {
+            return false;
+        }
+        used[d as usize] = true;
     }
-
-    let total: u32 = shipments.iter().sum();
-    let count = shipments.len() as u32;
-
-    if total % count != 0 {
-        return usize::MAX;
-    }
-
-    let target = total / count;
-    let mut moves = 0;
-    let mut excess: i64 = 0;
-
-    for &weight in shipments {
-        let diff = weight as i64 - target as i64;
-        excess += diff;
-        moves += diff.abs() as usize;
-    }
-
-    moves / 2
+    true
 }
-
-fn gen_shipments(n: usize) -> Vec<u32> {
-    if n == 0 {
-        return Vec::new();
+fn solve_cryptarithm() -> usize {
+    let mut solutions = 0;
+    for m in 1..=8 {
+        for u in 1..=8 {
+            for x in 1..=8 {
+                for a in 1..=8 {
+                    for s in 1..=8 {
+                        for l in 1..=8 {
+                            for o in 1..=8 {
+                                for n in 1..=8 {
+                                    let digits = [m, u, x, a, s, l, o, n];
+                                    if !all_different(&digits) {
+                                        continue;
+                                    }
+                                    let muxa = m * 1000 + u * 100 + x * 10 + a;
+                                    let slon = s * 1000 + l * 100 + o * 10 + n;
+                                    if muxa as u64 * a as u64 == slon as u64 {
+                                        println!("{} (muxa = {}{}{}{})", muxa, m, u, x, a);
+                                        println!("{}        {} (x = {}, a = {})", x, a, x, a);
+                                        println!("------");
+                                        println!("{} (slon = {}{}{}{})", slon, s, l, o, n);
+                                        println!();
+                                        solutions += 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    let mut rng = rand::thread_rng();
-    let base = rng.gen_range(1..10);
-    let total = base * n as u32;
-    let mut result = Vec::with_capacity(n);
-    let mut remaining = total;
-
-    for i in 0..n - 1 {
-        let min_remaining = (n - 1 - i) as u32;
-        let max_possible = remaining - min_remaining;
-        let value = rng.gen_range(1..=max_possible.min(total / n as u32 + 1));
-        result.push(value);
-        remaining -= value;
-    }
-
-    result.push(remaining);
-    result
-}
-
-fn print_shipments_and_result(shipments: &[u32]) {
-    println!("{:?}", shipments);
-    let moves = count_permutation(shipments);
-    println!("answer = {}\n", moves);
+    solutions
 }
 
 fn main() {
-    let examples = vec![
-        vec![8, 2, 2, 4, 4],
-        vec![9, 3, 7, 2, 9],
-    ];
-
-    for shipments in &examples {
-        print_shipments_and_result(shipments);
-    }
-
-    let generated = gen_shipments(5);
-    println!("Generated: {:?}", generated);
-    print_shipments_and_result(&generated);
-}
-
-#[test]
-fn test_count_permutation() {
-    let test_cases = [
-        (vec![8, 2, 2, 4, 4], 4),
-        (vec![9, 3, 7, 2, 9], 7),
-        (vec![1, 2, 3], usize::MAX),
-    ];
-    for (shipments, expected) in test_cases.iter() {
-        assert_eq!(count_permutation(shipments), *expected);
-    }
+    let solution_count = solve_cryptarithm();
+    println!("Скільки рішень має задача? {}", solution_count);
 }
