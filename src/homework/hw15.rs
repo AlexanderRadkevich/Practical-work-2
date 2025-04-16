@@ -1,60 +1,50 @@
-use itertools::Itertools;
-fn solve_cryptarithm() -> Vec<(i32, i32, i32, i32, i32, i32, i32, i32)> {
-    let mut solutions = Vec::new();
-    for perm in (0..10).permutations(8) {
-        let m = perm[0];
-        let u = perm[1];
-        let x = perm[2];
-        let a = perm[3];
-        let s = perm[4];
-        let l = perm[5];
-        let o = perm[6];
-        let n = perm[7];
-        if m == 0 || s == 0 {
-            continue;
+fn all_different(digits: &[u32]) -> bool {
+    let mut used = [false; 9];
+    for &d in digits {
+        if d == 0 || used[d as usize] {
+            return false;
         }
-        let muxa = 1000 * m + 100 * u + 10 * x + a;
-        let slon = 1000 * s + 100 * l + 10 * o + n;
-        if muxa * a == slon {
-            solutions.push((m, u, x, a, s, l, o, n));
+        used[d as usize] = true;
+    }
+    true
+}
+fn solve_cryptarithm() -> usize {
+    let mut solutions = 0;
+    for m in 1..=8 {
+        for u in 1..=8 {
+            for x in 1..=8 {
+                for a in 1..=8 {
+                    for s in 1..=8 {
+                        for l in 1..=8 {
+                            for o in 1..=8 {
+                                for n in 1..=8 {
+                                    let digits = [m, u, x, a, s, l, o, n];
+                                    if !all_different(&digits) {
+                                        continue;
+                                    }
+                                    let muxa = m * 1000 + u * 100 + x * 10 + a;
+                                    let slon = s * 1000 + l * 100 + o * 10 + n;
+                                    if muxa as u64 * a as u64 == slon as u64 {
+                                        println!("{} (muxa = {}{}{}{})", muxa, m, u, x, a);
+                                        println!("{}        {} (x = {}, a = {})", x, a, x, a);
+                                        println!("------");
+                                        println!("{} (slon = {}{}{}{})", slon, s, l, o, n);
+                                        println!();
+                                        solutions += 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
     solutions
 }
-fn print_solution(solution: &(i32, i32, i32, i32, i32, i32, i32, i32)) {
-    let (m, u, x, a, s, l, o, n) = *solution;
-    let muxa = 1000 * m + 100 * u + 10 * x + a;
-    let slon = 1000 * s + 100 * l + 10 * o + n;
-    println!("  {}{}{}{}", m, u, x, a);
-    println!("x     {}", a);
-    println!("------");
-    println!("  {}{}{}{}", s, l, o, n);
-    println!("m = {}, u = {}, x = {}, a = {}, s = {}, l = {}, o = {}, n = {}", m, u, x, a, s, l, o, n);
-    println!();
-}
+
 fn main() {
-    let solutions = solve_cryptarithm();
-    for solution in &solutions {
-        print_solution(solution);
-    }
-    println!("Кількість рішень: {}", solutions.len());
-}
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn test_cryptarithm() {
-        let solutions = solve_cryptarithm();
-        for &(m, u, x, a, s, l, o, n) in &solutions {
-            let muxa = 1000 * m + 100 * u + 10 * x + a;
-            let slon = 1000 * s + 100 * l + 10 * o + n;
-            assert_eq!(muxa * a, slon);
-            let digits: Vec<i32> = vec![m, u, x, a, s, l, o, n];
-            let unique_digits: std::collections::HashSet<i32> = digits.into_iter().collect();
-            assert_eq!(unique_digits.len(), 8);
-            assert_ne!(m, 0);
-            assert_ne!(s, 0);
-        }
-    }
+    let solution_count = solve_cryptarithm();
+    println!("Скільки рішень має задача? {}", solution_count);
 }
