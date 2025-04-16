@@ -4,6 +4,7 @@ fn is_palindrome(x: u32) -> bool {
         .zip(s.chars().rev())
         .all(|(a, b)| a == b)
 }
+
 #[test]
 fn test() {
     let data = [
@@ -17,8 +18,11 @@ fn test() {
             assert_eq!(is_palindrome(*n), *exp);
         });
 }
+
 fn main() {
-    println!("{}", is_palindrome(123));
-    println!("{}", is_palindrome(121));
-    println!("{}", is_palindrome(1221));
+    test();
+    let data = [123, 121, 1221];
+    data.iter().for_each(|n| {
+        println!("{}", is_palindrome(*n));
+    });
 }
