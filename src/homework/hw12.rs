@@ -54,21 +54,6 @@ fn print_shipments_and_result(shipments: &[u32]) {
     println!("answer = {}\n", moves);
 }
 
-fn main() {
-    let examples = vec![
-        vec![8, 2, 2, 4, 4],
-        vec![9, 3, 7, 2, 9],
-    ];
-
-    for shipments in &examples {
-        print_shipments_and_result(shipments);
-    }
-
-    let generated = gen_shipments(5);
-    println!("Generated: {:?}", generated);
-    print_shipments_and_result(&generated);
-}
-
 #[test]
 fn test_count_permutation() {
     let test_cases = [
