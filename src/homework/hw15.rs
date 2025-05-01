@@ -8,6 +8,7 @@ fn all_different(digits: &[u32]) -> bool {
     }
     true
 }
+
 fn solve_cryptarithm() -> usize {
     let mut solutions = 0;
     for m in 1..=8 {
@@ -25,10 +26,10 @@ fn solve_cryptarithm() -> usize {
                                     let muxa = m * 1000 + u * 100 + x * 10 + a;
                                     let slon = s * 1000 + l * 100 + o * 10 + n;
                                     if muxa as u64 * a as u64 == slon as u64 {
-                                        println!("{} (muxa = {}{}{}{})", muxa, m, u, x, a);
-                                        println!("{}        {} (x = {}, a = {})", x, a, x, a);
-                                        println!("------");
-                                        println!("{} (slon = {}{}{}{})", slon, s, l, o, n);
+                                        println!("{}", muxa);
+                                        println!("x{:>5} {}", "", a);
+                                        println!("---------");
+                                        println!("{}", slon);
                                         println!();
                                         solutions += 1;
                                     }
@@ -42,9 +43,4 @@ fn solve_cryptarithm() -> usize {
     }
 
     solutions
-}
-
-fn main() {
-    let solution_count = solve_cryptarithm();
-    println!("Скільки рішень має задача? {}", solution_count);
 }
