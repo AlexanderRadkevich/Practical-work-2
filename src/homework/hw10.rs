@@ -18,10 +18,3 @@ fn test() {
             assert_eq!(is_palindrome(*n), *exp);
         });
 }
-
-fn main() {
-    let numbers = [123, 121, 1221];
-    numbers.iter().for_each(|&n| {
-        println!("{}", is_palindrome(n));
-    });
-}
